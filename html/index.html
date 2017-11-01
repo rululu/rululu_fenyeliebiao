@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{ margin: 0; padding: 0;}
+			li{ line-height: 50px; font-size: 30px;}
+			#con span{ display: inline-block; width: 100px; line-height: 30px; font-size: 16px;}
+			#con{ padding: 20px; border: 1px solid black;}
+		</style>
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<ul id="ye">
+			
+		</ul>
+		<div id="con">
+			
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			url:"http://localhost:3000/item/xian",
+			type:"post",
+			dataType:"json",
+			success:function(e){
+				console.log(e)
+				for(var i=0;i<e.length/2;i++){
+					$("#ye").append("<li class='ss' data-id='"+e[i].id+"'>"+e[i].id+"</li>")
+				}
+				$(".ss").click(function(){
+					var uid=$(this).attr('data-id');
+					console.log(uid);
+					$.ajax({
+						url:"http://localhost:3000/item/list",
+						type:"post",
+						data:{id:uid},
+						success:function(e){
+							var str="";
+							for(var i in e){
+								console.log(e)
+								str+="<p>"+"<span>"+e[i].id+"</span>"+"<span>"+e[i].name+"</span>"+"</p>"
+							}
+							$("#con").html(str)
+						}
+					})
+				})
+			}
+		})
+		
+	})
+</script>
